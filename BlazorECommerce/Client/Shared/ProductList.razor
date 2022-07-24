@@ -1,23 +1,33 @@
-﻿@inject HttpClient Http;
+﻿@inject IProductService Service;
+@implements IDisposable
+
+
 
 <h3>ProductList</h3>
 
+@if (Service.Products.Count == 0)
+{
+    <span>Loading Products ....</span>
+}
+
+
 <ul class="list-unstyled">
-    @foreach (var product in _products)
+    @foreach (var product in Service.Products)
     {
         <li class="media my-3">
             <div class="media-img-wrapper m-2">
-                <a href="#">
+                <a href="/product/@product.Id">
                     <img class="media-img" src="@product.ImageUrl" alt="@product.Title"/>
                 </a>
             </div>
             
             <div class="media-body">
-                <a href="#">
+                <a href="/product/@product.Id">
                     <h4 class="mb-0">@product.Title</h4>
                 </a>
                 <p>@product.Description</p>
-                <h5 class="price">$@product.Price</h5>
+                <p>@product.Category.Name</p>
+                <h5 class="h5 price">$ @product.Price</h5>
             </div>
 
         </li>
